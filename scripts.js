@@ -6,7 +6,8 @@ const initPage = document.querySelector('.init_page')
 const questionDIv = document.querySelector('.question_page');
 const questionTxt = document.querySelector('.question');
 const modalPopup = document.querySelector('.modal_pop-up');
-const optionsList = document.querySelectorAll('.options .label');
+const optionInput = document.querySelectorAll('.options .input[type = "radio"]')
+const optionLabels = document.querySelectorAll('.options .label');
 
 console.log(questionDIv.style.display)
 
@@ -135,19 +136,18 @@ function loadQuestion(){
 const randonIndex = Math.floor(Math.random() * availableQuestion.length)
 const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
 
+//Get the question from array and display it
 if(questionTxt){
     questionTxt.textContent = selectedQuestion.question
     return selectedQuestion
 }
 
-const optionArray = selectedQuestion.options;
-
-console.log(optionArray
-
-)
-/* optionArray.forEach(optionsList, index){
-
-} */
-
+//
+optionArray.forEach((optionsList, index) => {
+    if(optionInput[index] && optionLabels[index]){
+        optionInput[index].value = index;
+        optionInput[index].checked = false;
+        optionLabels[index].textContent = optionText;
+    }
 });
-
+});
