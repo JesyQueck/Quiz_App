@@ -118,12 +118,24 @@ const generalKnowledgeQuestions = [
     correctAnswerIndex: 1,
   },
 ];
- 
+
+// Create a pool array where random questions will be retrieved
 let availableQuestion = [generalKnowledgeQuestions];
-if(availableQuestion === 0){
-    questionDIv.style.display = 'none'   
-    modalPopup.style.display = 'flex'
-}else
+
+//function to check for completed 
+function loadQuestion(){
+    if(availableQuestion.length === 0){
+        questionDIv.style.display = 'none'   
+        modalPopup.style.display = 'flex'
+    } return null;
+}  
+//Rndomize question number  
+const randonIndex = math.floor(math.random * availableQuestion.length)
+const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
+
+if(questionTxt){
+    questionTxt.textContent = selectedQuestion.question
+}return selectedQuestion
 
 });
 
