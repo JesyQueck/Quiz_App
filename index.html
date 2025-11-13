@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <section>
+    <section class="init_page">
+        <h1>Quiz App</h1>
+        <p>Test your knowledge on general questions</p>
+        <button id="start_button">Start</button>
+    </section>
+    <section class="question_page">
     <header>
         <h1>Quiz App</h1>
             <div class="timer">
@@ -15,7 +20,7 @@
             </div>
     </header>
     <div>
-        <h2 class="question_no">Question <span id="current_question">0</span> of <span id="total_question"></span></h2>
+        <h2 class="question_no">Question <span id="current_question">0</span> of <span id="total_question">20</span></h2>
         <h2 class="question">What is a table?</h2>
         <div class="options">
             <div class="opt1">
@@ -41,16 +46,16 @@
         </div>
         <div class="progress_bar"></div>
     </div>
+    </section>
     <div class="modal_pop-up">
         <div class="score-card">
-            <h3 class="score"></h3>
-            <h3 class="percent"></h3>
+            <h3 class="score">Score: <span>0</span></h3>
+            <h3 class="percent">Percentage: <span>0%</span></h3>
         </div>
         <div class="restart">
             <button>Play Again</button>
         </div>
     </div>
-    </section>
     <script src="scripts.js"></script>
 </body>
 </html>

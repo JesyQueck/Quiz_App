@@ -14,7 +14,34 @@ body{
     align-items: center;
     justify-content: center;
 }
-section{
+.init_page{
+    padding: 2rem;
+    width: 40rem;
+    height: fit-content;
+    background-color: steelblue;
+    border-radius: 5px;
+    border: 3px solid white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.init_page h1{
+    font-size: 64px;
+    font-weight: 800;
+}
+.init_page button{
+    padding: 12px 8px;
+    border: 3px solid white;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: 20px;
+}
+.init_page p{
+    font-size: 20px;
+}
+.question_page{
     display: none;
     padding: 2rem;
     width: 40rem;
@@ -38,7 +65,8 @@ header h1{
     font-weight: 800;
 }
 .question_no{
-    font-size: 32px;
+    font-size: 25px;
+    margin-bottom: 16px;
 }
 .question{
     border: 3px solid white;
@@ -63,9 +91,26 @@ header h1{
     justify-content: space-between;
 }
 .next, .back {
-    padding: 12px 6px;
+    padding: 12px 8px;
     border: 3px solid white;
     border-radius: 5px;
     font-weight: 800;
     font-size: 20px;
+}
+.modal_pop-up{
+    display: flex;
+    padding: 2rem;
+    width: 40rem;
+    height: fit-content;
+    background-color: steelblue;
+    border-radius: 5px;
+    border: 3px solid white;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.score-card{
+    display: flex;
+    gap: 32px;
 }
