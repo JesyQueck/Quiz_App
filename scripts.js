@@ -6,15 +6,15 @@ const initPage = document.querySelector('.init_page')
 const questionDIv = document.querySelector('.question_page');
 const questionTxt = document.querySelector('.question');
 const modalPopup = document.querySelector('.modal_pop-up');
-const optionInput = document.querySelectorAll('.options .input[type = "radio"]')
+const optionInput = document.querySelectorAll('.options input[type="radio"]')
 const optionLabels = document.querySelectorAll('.options .label');
-
-console.log(questionDIv.style.display)
 
 //Start click function 
 startButton.addEventListener('click', function(){
     initPage.style.display ='none';
     questionDIv.style.display = 'block';
+
+    loadQuestion();
 });
 
 //Question Array
@@ -128,26 +128,37 @@ let availableQuestion = [...generalKnowledgeQuestions];
 //function to check for completed 
 function loadQuestion(){
     if(availableQuestion.length === 0){
-        questionDIv.style.display = 'none'   
-        modalPopup.style.display = 'flex'
-    } return null;
-}  
-//Rndomize question number  
-const randonIndex = Math.floor(Math.random() * availableQuestion.length)
-const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
+        if(questionDIv && modalPopup){
+            questionDIv.style.display = 'none';   
+            modalPopup.style.display = 'flex';
+        }
+        return null;
+    };
 
-//Get the question from array and display it
-if(questionTxt){
-    questionTxt.textContent = selectedQuestion.question
-    return selectedQuestion
-}
+    //reset radio   
+    optionInput.forEach(input => input.checked = false )
 
-//
-optionArray.forEach((optionsList, index) => {
-    if(optionInput[index] && optionLabels[index]){
-        optionInput[index].value = index;
-        optionInput[index].checked = false;
-        optionLabels[index].textContent = optionText;
+    //Rndomize question number  
+    const randomIndex = Math.floor(Math.random() * availableQuestion.length)
+    const selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
+
+    //Get the question from array and display it
+    if(questionTxt){
+        questionTxt.textContent = selectedQuestion.question
     }
-});
+
+    //Option integration 
+    const optionArray = selectedQuestion.options
+
+    console.log(optionArray)
+
+    optionArray.forEach((optionsList, index) => {
+        if(optionInput[index] && optionLabels[index]){
+            optionInput[index].value = index;
+            optionLabels[index].textContent = optionsList;
+        }
+    });
+        return selectedQuestion
+    }
+
 });
