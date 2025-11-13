@@ -130,7 +130,7 @@ function loadQuestion(){
     } return null;
 }  
 //Rndomize question number  
-const randonIndex = math.floor(math.random * availableQuestion.length)
+const randonIndex = math.floor(math.random() * availableQuestion.length)
 const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
 
 if(questionTxt){
