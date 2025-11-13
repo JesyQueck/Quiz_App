@@ -1,23 +1,31 @@
-//initialize the DOM
+// Initialize the DOM
 document.addEventListener('DOMContentLoaded', function(){
 
-const startButton = document.querySelector('#start_button');
-const initPage = document.querySelector('.init_page')
+// --- DOM Element Selection ---
+// Select key elements from the HTML for interaction
+const startButton = document.querySelector('#start_button'); 
+const initPage = document.querySelector('.init_page');
 const questionDIv = document.querySelector('.question_page');
 const questionTxt = document.querySelector('.question');
-const modalPopup = document.querySelector('.modal_pop-up');
-const optionInput = document.querySelectorAll('.options input[type="radio"]')
-const optionLabels = document.querySelectorAll('.options .label');
+const modalPopup = document.querySelector('.modal_pop-up'); 
+const optionInput = document.querySelectorAll('.options input[type="radio"]');
+const optionLabels = document.querySelectorAll('.options .label'); 
+const totalQuestion = document.querySelector('.total_question');
+const currentQuestion = document.querySelector('.current_question'); 
+const nextBtn = document.querySelector('.next'); 
+const backBtn = document.querySelector('.back');
 
-//Start click function 
+
+// Start click function
 startButton.addEventListener('click', function(){
-    initPage.style.display ='none';
+    initPage.style.display ='none'; 
     questionDIv.style.display = 'block';
 
-    loadQuestion();
+    loadQuestion(); // Load the first question
 });
 
-//Question Array
+
+// Array containing all general knowledge questions, options, and the correct answer index
 const generalKnowledgeQuestions = [
   {
     question: "What is the largest planet in our solar system?",
@@ -106,7 +114,7 @@ const generalKnowledgeQuestions = [
   },
   {
     question: "Which country has the largest population (as of 2024)?",
-    options: ["China", "India", "United States", "Indonesia"],
+    options: ["China", "In'dia", "United States", "Indonesia"],
     correctAnswerIndex: 1,
   },
   {
@@ -121,44 +129,67 @@ const generalKnowledgeQuestions = [
   },
 ];
 
+/* // Total questions
+currentQuestion = generalKnowledgeQuestions.length
+*/
+
 // Create a pool array where random questions will be retrieved
-// using the spread operator to open the copied array  
+// using the spread operator to open the copied array
 let availableQuestion = [...generalKnowledgeQuestions];
 
-//function to check for completed 
+
+// Selects a random question, displays it, and removes it from the pool
 function loadQuestion(){
+    // Check if all questions have been used
     if(availableQuestion.length === 0){
+        // If the quiz is complete, display the modal and exit the function
         if(questionDIv && modalPopup){
-            questionDIv.style.display = 'none';   
+            questionDIv.style.display = 'none';
             modalPopup.style.display = 'flex';
         }
-        return null;
+        return null; // Return null to indicate no question was loaded
     };
 
-    //reset radio   
+    // Reset radio: Uncheck all radio buttons before loading the new question
     optionInput.forEach(input => input.checked = false )
 
-    //Rndomize question number  
+    // Rndomize question selection: Pick a random index from the available questions
     const randomIndex = Math.floor(Math.random() * availableQuestion.length)
+    // Select the question at the random index and remove it from the available pool
     const selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
 
-    //Get the question from array and display it
+    // Get the question from array and display it in the designated element
     if(questionTxt){
         questionTxt.textContent = selectedQuestion.question
     }
 
-    //Option integration 
+    // Option integration: Loop through the options and update the radio button values and labels
     const optionArray = selectedQuestion.options
-
-    console.log(optionArray)
-
     optionArray.forEach((optionsList, index) => {
         if(optionInput[index] && optionLabels[index]){
+            // Set the radio input's value to its index (useful for answer checking later)
             optionInput[index].value = index;
+            // Set the label text to the actual option text
             optionLabels[index].textContent = optionsList;
         }
     });
-        return selectedQuestion
-    }
+        return selectedQuestion // Return the question object that was loaded
+  }
+
+  //check answer 
+  function checkAnswer(){
+    const selectedAnswer = document.querySelector('input[name = "option"]:checked');
+
+    if(!selectedAnswer){
+        alert(`Select an option`);
+    }return;
+  }
+    const answerString = selectedAnswer.value;
+
+    const userAnswer = parseInt(answerString);
+
+    nextBtn.addEventListener('click', function(){
+
+    })
 
 });
