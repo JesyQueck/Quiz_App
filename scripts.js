@@ -1,15 +1,21 @@
 //initialize the DOM
-const startButton = document.getElementById("start_button");
-const initPage = document.querySelector(".init_page")
-const questionDIv = document.querySelector(".question_page");
+document.addEventListener('DOMContentLoaded', function(){
+
+const startButton = document.querySelector('#start_button');
+const initPage = document.querySelector('.init_page')
+const questionDIv = document.querySelector('.question_page');
+
+console.log(questionDIv.style.display)
 
 //Click function 
 startButton.addEventListener('click', function(){
-    if(initPage.style.display === 'flex' &&
-         questionDIv.style.display === 'none'){
-        initPage.style.display === 'none';
-        questionDIv.style.display === 'flex';
-    }else{
-        initPage.style.display === 'flex';
-    };
+    initPage.style.display ='none';
+    questionDIv.style.display = 'block';
 });
+});if(initPage.style.display == 'flex' &&
+         questionDIv.style.display == 'none'){
+        initPage.style.display == 'none';
+        questionDIv.style.display == 'flex';
+    }else{
+        initPage.style.display == 'flex';
+    };
