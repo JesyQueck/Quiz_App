@@ -5,7 +5,8 @@ const startButton = document.querySelector('#start_button');
 const initPage = document.querySelector('.init_page')
 const questionDIv = document.querySelector('.question_page');
 const questionTxt = document.querySelector('.question');
-const modalPopup = document.querySelector('.modal_pop-up')
+const modalPopup = document.querySelector('.modal_pop-up');
+const optionsList = document.querySelectorAll('.options .label');
 
 console.log(questionDIv.style.display)
 
@@ -120,7 +121,8 @@ const generalKnowledgeQuestions = [
 ];
 
 // Create a pool array where random questions will be retrieved
-let availableQuestion = [generalKnowledgeQuestions];
+// using the spread operator to open the copied array  
+let availableQuestion = [...generalKnowledgeQuestions];
 
 //function to check for completed 
 function loadQuestion(){
@@ -130,12 +132,16 @@ function loadQuestion(){
     } return null;
 }  
 //Rndomize question number  
-const randonIndex = math.floor(math.random() * availableQuestion.length)
+const randonIndex = Math.floor(Math.random() * availableQuestion.length)
 const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
 
 if(questionTxt){
     questionTxt.textContent = selectedQuestion.question
 }return selectedQuestion
+
+const optionArray = selectedQuestion.options;
+console.log(optionArray)
+
 
 });
 
