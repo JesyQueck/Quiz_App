@@ -137,11 +137,17 @@ const selectedQuestion = availableQuestion.splice(randonIndex, 1)[0];
 
 if(questionTxt){
     questionTxt.textContent = selectedQuestion.question
-}return selectedQuestion
+    return selectedQuestion
+}
 
 const optionArray = selectedQuestion.options;
-console.log(optionArray)
 
+console.log(optionArray
+
+)
+/* optionArray.forEach(optionsList, index){
+
+} */
 
 });
 
