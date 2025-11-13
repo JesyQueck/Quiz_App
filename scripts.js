@@ -5,7 +5,7 @@ const startButton = document.querySelector('#start_button');
 const initPage = document.querySelector('.init_page')
 const questionDIv = document.querySelector('.question_page');
 const questionTxt = document.querySelector('.question');
-const modalPopup = this.document.querySelector('.modal_pop-up')
+const modalPopup = document.querySelector('.modal_pop-up')
 
 console.log(questionDIv.style.display)
 
