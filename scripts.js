@@ -16,6 +16,13 @@ const nextBtn = document.querySelector('.next');
 const backBtn = document.querySelector('.back');
 const secTimer = document.querySelector('.sec');
 
+let selectedQuestion;
+let currentQuestionObject;
+let history = []
+
+console.log(selectedAnswer)
+
+console.log(selectedAnswer)
 // Start click function
 startButton.addEventListener('click', function(){
     initPage.style.display ='none'; 
@@ -144,7 +151,6 @@ let availableQuestion = [...generalKnowledgeQuestions];
 
 
 
-
 // Selects a random question, displays it, and removes it from the pool
 function loadQuestion(){
     // Check if all questions have been used
@@ -163,8 +169,16 @@ function loadQuestion(){
     // Rndomize question selection: Pick a random index from the available questions
     const randomIndex = Math.floor(Math.random() * availableQuestion.length)
     // Select the question at the random index and remove it from the available pool
-    const selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
+    selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
 
+
+    currentQuestionObject = selectedQuestion;
+
+    history.push(selectedQuestion);
+
+    currentQuestion.textContent = history.length;
+
+    
     // Get the question from array and display it in the designated element
     if(questionTxt){
         questionTxt.textContent = selectedQuestion.question
@@ -191,13 +205,18 @@ function loadQuestion(){
   score = 0;
 
   //initialize timer
-  let countDownTimer = 5
   let timerIntervalId;
 
-  secTimer.textContent = countDownTimer;
+  
  function startTimer (){
+    //clear running interval
     if(timerIntervalId){
         clearInterval(timerIntervalId)
+    }
+
+    let countDownTimer = 5
+    if (secTimer){
+        secTimer.textContent = countDownTimer
     }
 
     timerIntervalId = setInterval(() =>{
@@ -210,26 +229,29 @@ function loadQuestion(){
     }
   }, 1000);
  }
-
+let userAnswer;
   //check answer 
   function checkAnswer(){
     const selectedAnswer = document.querySelector('input[name = "option"]:checked');
-    const answerString = selectedAnswer.value;
-
-    const userAnswer = parseInt(answerString);
-
+    const answerString = selectedAnswer;
+    userAnswer = parseInt(answerString);
     const correctAnswer = selectedQuestion.correctAnswerIndex
     if(userAnswer === correctAnswer){
         score++;
     } 
 }
     nextBtn.addEventListener('click', function(){
-        if(selectedAnswer){
+        if(!selectedAnswer){
         alert(`Select an option`);
         return;
     }
+
+
+        startTimer();
         checkAnswer();
         loadQuestion();
+        alert(userAnswer);
     })
-
-});
+    
+    console.log(nextBtn)
+}); 
