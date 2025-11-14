@@ -10,11 +10,11 @@ const questionTxt = document.querySelector('.question');
 const modalPopup = document.querySelector('.modal_pop-up'); 
 const optionInput = document.querySelectorAll('.options input[type="radio"]');
 const optionLabels = document.querySelectorAll('.options .label'); 
-const totalQuestion = document.querySelector('.total_question');
+const totalQuestion = document.querySelector('#total_question');
 const currentQuestion = document.querySelector('.current_question'); 
 const nextBtn = document.querySelector('.next'); 
 const backBtn = document.querySelector('.back');
-
+const secTimer = document.querySelector('.sec');
 
 // Start click function
 startButton.addEventListener('click', function(){
@@ -22,6 +22,7 @@ startButton.addEventListener('click', function(){
     questionDIv.style.display = 'block';
 
     loadQuestion(); // Load the first question
+    startTimer();
 });
 
 
@@ -129,13 +130,19 @@ const generalKnowledgeQuestions = [
   },
 ];
 
-/* // Total questions
-currentQuestion = generalKnowledgeQuestions.length
-*/
+
+
+// Total questions
+const totalQuestions = generalKnowledgeQuestions.length 
+totalQuestion.innerHTML = totalQuestions
+
+
 
 // Create a pool array where random questions will be retrieved
 // using the spread operator to open the copied array
 let availableQuestion = [...generalKnowledgeQuestions];
+
+
 
 
 // Selects a random question, displays it, and removes it from the pool
@@ -175,12 +182,35 @@ function loadQuestion(){
     });
         return selectedQuestion // Return the question object that was loaded
   }
+
+
+
+
+
   //initialize score 
   score = 0;
 
   //initialize timer
+  let countDownTimer = 5
+  let timerIntervalId;
 
-  timer = 15
+  secTimer.textContent = countDownTimer;
+ function startTimer (){
+    if(timerIntervalId){
+        clearInterval(timerIntervalId)
+    }
+
+    timerIntervalId = setInterval(() =>{
+    countDownTimer--;
+
+    secTimer.textContent = countDownTimer;
+
+    if(countDownTimer <= 0){
+        clearInterval(timerIntervalId)
+    }
+  }, 1000);
+ }
+
   //check answer 
   function checkAnswer(){
     const selectedAnswer = document.querySelector('input[name = "option"]:checked');
