@@ -13,13 +13,13 @@ const optionLabels = document.querySelectorAll('.options .label');
 const totalQuestion = document.querySelector('#total_question');
 const currentQuestion = document.querySelector('#current_question'); 
 const nextBtn = document.querySelector('.next'); 
-const backBtn = document.querySelector('.back');
 const secTimer = document.querySelector('.sec');
-const scoreTxt = document.querySelector('.scoreId')
-const percentTxt = document.querySelector('.percentageId')
+const scoreTxt = document.querySelector('.scoreId');
+const percentTxt = document.querySelector('.percentId');
+const restartBtn =document.querySelector('button');
 
 let selectedQuestion;
-let currentQuestionObject;
+let currentQuestionObject = 0;
 let history = []
 let selectedAnswer;
 let userAnswer;
@@ -174,8 +174,10 @@ function loadQuestion(){
 
 
     history.push(selectedQuestion);
-
+    currentQuestionObject = selectedQuestion
+    if(currentQuestionObject){
     currentQuestion.textContent = history.length;
+    }
 
     // Get the question from array and display it in the designated element
     if(questionTxt){
@@ -196,14 +198,9 @@ function loadQuestion(){
   }
 
 
-    currentQuestionObject = selectedQuestion;
-
-
-
-
   //initialize score 
   score = 0;
-  const percent = (score/totalQuestion.length)*100;
+  const percent = (score / totalQuestions)*100;
   //initialize timer
   let timerIntervalId;
 
@@ -214,7 +211,7 @@ function loadQuestion(){
         clearInterval(timerIntervalId)
     }
 
-    let countDownTimer = 5
+    let countDownTimer = 10
     if (secTimer){
         secTimer.textContent = countDownTimer
     }
@@ -244,18 +241,13 @@ function loadQuestion(){
         return null;
     };
 
-
-    if(!selectedAnswer){
-        alert(`Select an option`);
-        return;
-    }
-
     const correctAnswer = selectedQuestion.correctAnswerIndex;
 
     if(userAnswer === correctAnswer){
         score++;
         scoreTxt.textContent = score;
-        percentTxt.textContent = percent;
+
+        percentTxt.textContent = `${percent.toFixed(1)}%`;
     }return userAnswer; 
 }
     nextBtn.addEventListener('click', function(){
@@ -265,5 +257,11 @@ function loadQuestion(){
         startTimer();
         loadQuestion();
     })
+    restartBtn.addEventListener('click', function(){
+        clearInterval(timerIntervalId)
+        startTimer();
+        loadQuestion()
+    })
+    console.log(score)
 
 }); 
