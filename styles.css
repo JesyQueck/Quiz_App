@@ -89,7 +89,7 @@ header h1{
 .next-back_button{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 .next, .back {
     padding: 12px 8px;

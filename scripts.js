@@ -11,18 +11,19 @@ const modalPopup = document.querySelector('.modal_pop-up');
 const optionInput = document.querySelectorAll('.options input[type="radio"]');
 const optionLabels = document.querySelectorAll('.options .label'); 
 const totalQuestion = document.querySelector('#total_question');
-const currentQuestion = document.querySelector('.current_question'); 
+const currentQuestion = document.querySelector('#current_question'); 
 const nextBtn = document.querySelector('.next'); 
 const backBtn = document.querySelector('.back');
 const secTimer = document.querySelector('.sec');
+const scoreTxt = document.querySelector('.scoreId')
+const percentTxt = document.querySelector('.percentageId')
 
 let selectedQuestion;
 let currentQuestionObject;
 let history = []
+let selectedAnswer;
+let userAnswer;
 
-console.log(selectedAnswer)
-
-console.log(selectedAnswer)
 // Start click function
 startButton.addEventListener('click', function(){
     initPage.style.display ='none'; 
@@ -172,13 +173,10 @@ function loadQuestion(){
     selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
 
 
-    currentQuestionObject = selectedQuestion;
-
     history.push(selectedQuestion);
 
     currentQuestion.textContent = history.length;
 
-    
     // Get the question from array and display it in the designated element
     if(questionTxt){
         questionTxt.textContent = selectedQuestion.question
@@ -198,12 +196,14 @@ function loadQuestion(){
   }
 
 
+    currentQuestionObject = selectedQuestion;
+
 
 
 
   //initialize score 
   score = 0;
-
+  const percent = (score/totalQuestion.length)*100;
   //initialize timer
   let timerIntervalId;
 
@@ -226,32 +226,44 @@ function loadQuestion(){
 
     if(countDownTimer <= 0){
         clearInterval(timerIntervalId)
+
+        loadQuestion();
+
+        startTimer();
     }
   }, 1000);
  }
-let userAnswer;
+
   //check answer 
   function checkAnswer(){
     const selectedAnswer = document.querySelector('input[name = "option"]:checked');
-    const answerString = selectedAnswer;
-    userAnswer = parseInt(answerString);
-    const correctAnswer = selectedQuestion.correctAnswerIndex
-    if(userAnswer === correctAnswer){
-        score++;
-    } 
-}
-    nextBtn.addEventListener('click', function(){
-        if(!selectedAnswer){
+    if(selectedAnswer){
+        userAnswer = parseInt(selectedAnswer.value);
+    }else {
+        userAnswer = null;
+        return null;
+    };
+
+
+    if(!selectedAnswer){
         alert(`Select an option`);
         return;
     }
 
+    const correctAnswer = selectedQuestion.correctAnswerIndex;
 
+    if(userAnswer === correctAnswer){
+        score++;
+        scoreTxt.textContent = score;
+        percentTxt.textContent = percent;
+    }return userAnswer; 
+}
+    nextBtn.addEventListener('click', function(){
+        const answerResult = checkAnswer()
+
+        clearInterval(timerIntervalId)
         startTimer();
-        checkAnswer();
         loadQuestion();
-        alert(userAnswer);
     })
-    
-    console.log(nextBtn)
+
 }); 
