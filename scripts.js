@@ -16,22 +16,13 @@ const nextBtn = document.querySelector('.next');
 const secTimer = document.querySelector('.sec');
 const scoreTxt = document.querySelector('.scoreId');
 const percentTxt = document.querySelector('.percentId');
-const restartBtn =document.querySelector('button');
+const restartBtn =document.querySelector('.restat_btn');
 
 let selectedQuestion;
 let currentQuestionObject = 0;
-let history = []
 let selectedAnswer;
 let userAnswer;
 
-// Start click function
-startButton.addEventListener('click', function(){
-    initPage.style.display ='none'; 
-    questionDIv.style.display = 'block';
-
-    loadQuestion(); // Load the first question
-    startTimer();
-});
 
 
 // Array containing all general knowledge questions, options, and the correct answer index
@@ -123,7 +114,7 @@ const generalKnowledgeQuestions = [
   },
   {
     question: "Which country has the largest population (as of 2024)?",
-    options: ["China", "In'dia", "United States", "Indonesia"],
+    options: ["China", "India", "United States", "Indonesia"],
     correctAnswerIndex: 1,
   },
   {
@@ -137,19 +128,31 @@ const generalKnowledgeQuestions = [
     correctAnswerIndex: 1,
   },
 ];
-
-
-
+  
+let availableQuestion = [...generalKnowledgeQuestions];
 // Total questions
 const totalQuestions = generalKnowledgeQuestions.length 
-totalQuestion.innerHTML = totalQuestions
+totalQuestion.textContent = totalQuestions
 
 
+    //initialize score 
+   let  score = 0;
+    let history = []
+    // Create a pool array where random questions will be retrieved
+    // using the spread operator to open the copied array
 
-// Create a pool array where random questions will be retrieved
-// using the spread operator to open the copied array
-let availableQuestion = [...generalKnowledgeQuestions];
 
+// Start click function
+startButton.addEventListener('click', function(){
+    initPage.style.display ='none'; 
+    questionDIv.style.display = 'block';
+
+
+    currentQuestion.textContent = 0;
+
+    loadQuestion(); // Load the first question
+    startTimer();
+});
 
 
 // Selects a random question, displays it, and removes it from the pool
