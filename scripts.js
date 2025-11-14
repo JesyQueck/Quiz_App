@@ -175,21 +175,31 @@ function loadQuestion(){
     });
         return selectedQuestion // Return the question object that was loaded
   }
+  //initialize score 
+  score = 0;
 
+  //initialize timer
+
+  timer = 15
   //check answer 
   function checkAnswer(){
     const selectedAnswer = document.querySelector('input[name = "option"]:checked');
-
-    if(!selectedAnswer){
-        alert(`Select an option`);
-    }return;
-  }
     const answerString = selectedAnswer.value;
 
     const userAnswer = parseInt(answerString);
 
+    const correctAnswer = selectedQuestion.correctAnswerIndex
+    if(userAnswer === correctAnswer){
+        score++;
+    } 
+}
     nextBtn.addEventListener('click', function(){
-
+        if(selectedAnswer){
+        alert(`Select an option`);
+        return;
+    }
+        checkAnswer();
+        loadQuestion();
     })
 
 });
