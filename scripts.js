@@ -294,5 +294,4 @@ document.addEventListener('DOMContentLoaded', function () {
     loadQuestion();
     startTimer();
   });
-  console.log(restartBtn);
 });
