@@ -16,11 +16,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const scoreTxt = document.querySelector('.scoreId');
   const percentTxt = document.querySelector('.percentId');
   const restartBtn = document.querySelector('.restart_btn');
+  const highScore = document.querySelector('.high-score');
 
   let selectedQuestion;
   let currentQuestionObject = 0;
   let selectedAnswer;
   let userAnswer;
+
+  /* const savedName = localStorage.getItem('name');
+  console.log(savedName); */
 
   // Array containing all general knowledge questions, options, and the correct answer index
   const generalKnowledgeQuestions = [
@@ -185,6 +189,20 @@ document.addEventListener('DOMContentLoaded', function () {
         questionDIv.style.display = 'none';
         modalPopup.style.display = 'flex';
       }
+
+      const highScoreValue = score;
+      highScore.textContent = localStorage.getItem('highScoreValue');
+      localStorage.setItem('highScoreValue', highScoreValue);
+      if (score > highScoreValue) {
+        console.log(score, highScore);
+
+        localStorage.setItem('highScoreValue', highScoreValue);
+        const currentUserHighScoreValue =
+          localStorage.getItem('highScoreValue');
+        highScore.textContent = currentUserHighScoreValue;
+        console.log(currentUserHighScoreValue);
+      }
+
       return null; // Return null to indicate no question was loaded
     }
 
@@ -217,11 +235,10 @@ document.addEventListener('DOMContentLoaded', function () {
         optionLabels[index].textContent = optionsList;
       }
     });
+    0.0;
     return selectedQuestion; // Return the question object that was loaded
   }
 
-  //initialize score
-  score = 0;
   //initialize timer
   let timerIntervalId;
 
@@ -269,19 +286,22 @@ document.addEventListener('DOMContentLoaded', function () {
       score++;
       scoreTxt.textContent = score;
 
-      percentTxt.textContent = `${((score / totalQuestions) * 100).toFixed(
-        1
-      )}%`;
+      percentTxt.textContent = `${((score / totalQuestions) * 100).toFixed()}%`;
     }
     return userAnswer;
   }
+
   nextBtn.addEventListener('click', function () {
     const answerResult = checkAnswer();
 
+    console.log(answerResult);
+
     clearInterval(timerIntervalId);
     startTimer();
+
     loadQuestion();
   });
+
   restartBtn.addEventListener('click', function () {
     availableQuestion = [...generalKnowledgeQuestions];
     score = 0;
@@ -291,7 +311,10 @@ document.addEventListener('DOMContentLoaded', function () {
     modalPopup.style.display = 'none';
     questionDIv.style.display = 'block';
     currentQuestion.textContent = '0';
+
     loadQuestion();
     startTimer();
   });
+
+  /* localStorage.setItem('score', score);*/
 });
