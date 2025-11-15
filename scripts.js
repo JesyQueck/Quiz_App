@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const scoreTxt = document.querySelector('.scoreId');
   const percentTxt = document.querySelector('.percentId');
   const restartBtn = document.querySelector('.restart_btn');
-  const answerScreen = document.querySelector('.answer-screen');
 
   let selectedQuestion;
   let currentQuestionObject = 0;
@@ -276,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     return userAnswer;
   }
-
   nextBtn.addEventListener('click', function () {
     const answerResult = checkAnswer();
 
