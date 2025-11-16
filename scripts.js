@@ -190,131 +190,140 @@ document.addEventListener('DOMContentLoaded', function () {
         modalPopup.style.display = 'flex';
       }
 
-      const highScoreValue = score;
-      highScore.textContent = localStorage.getItem('highScoreValue');
-      localStorage.setItem('highScoreValue', highScoreValue);
-      if (score > highScoreValue) {
-        console.log(score, highScore);
+      // Reset radio: Uncheck all radio buttons before loading the new question
+      optionInput.forEach((input) => (input.checked = false));
 
-        localStorage.setItem('highScoreValue', highScoreValue);
-        const currentUserHighScoreValue =
-          localStorage.getItem('highScoreValue');
-        highScore.textContent = currentUserHighScoreValue;
-        console.log(currentUserHighScoreValue);
+      // Rndomize question selection: Pick a random index from the available questions
+      const randomIndex = Math.floor(Math.random() * availableQuestion.length);
+      // Select the question at the random index and remove it from the available pool
+      selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
+
+      history.push(selectedQuestion);
+      currentQuestionObject = selectedQuestion;
+      if (currentQuestionObject) {
+        currentQuestion.textContent = history.length;
       }
 
-      return null; // Return null to indicate no question was loaded
-    }
-
-    // Reset radio: Uncheck all radio buttons before loading the new question
-    optionInput.forEach((input) => (input.checked = false));
-
-    // Rndomize question selection: Pick a random index from the available questions
-    const randomIndex = Math.floor(Math.random() * availableQuestion.length);
-    // Select the question at the random index and remove it from the available pool
-    selectedQuestion = availableQuestion.splice(randomIndex, 1)[0];
-
-    history.push(selectedQuestion);
-    currentQuestionObject = selectedQuestion;
-    if (currentQuestionObject) {
-      currentQuestion.textContent = history.length;
-    }
-
-    // Get the question from array and display it in the designated element
-    if (questionTxt) {
-      questionTxt.textContent = selectedQuestion.question;
-    }
-
-    // Option integration: Loop through the options and update the radio button values and labels
-    const optionArray = selectedQuestion.options;
-    optionArray.forEach((optionsList, index) => {
-      if (optionInput[index] && optionLabels[index]) {
-        // Set the radio input's value to its index (useful for answer checking later)
-        optionInput[index].value = index;
-        // Set the label text to the actual option text
-        optionLabels[index].textContent = optionsList;
+      // Get the question from array and display it in the designated element
+      if (questionTxt) {
+        questionTxt.textContent = selectedQuestion.question;
       }
-    });
-    0.0;
-    return selectedQuestion; // Return the question object that was loaded
-  }
 
-  //initialize timer
-  let timerIntervalId;
-
-  function startTimer() {
-    //clear running interval
-    if (timerIntervalId) {
-      clearInterval(timerIntervalId);
+      // Option integration: Loop through the options and update the radio button values and labels
+      const optionArray = selectedQuestion.options;
+      optionArray.forEach((optionsList, index) => {
+        if (optionInput[index] && optionLabels[index]) {
+          // Set the radio input's value to its index (useful for answer checking later)
+          optionInput[index].value = index;
+          // Set the label text to the actual option text
+          optionLabels[index].textContent = optionsList;
+        }
+      });
+      0.0;
+      return selectedQuestion; // Return the question object that was loaded
     }
 
-    let countDownTimer = 10;
-    if (secTimer) {
-      secTimer.textContent = countDownTimer;
-    }
+    //initialize timer
+    let timerIntervalId;
 
-    timerIntervalId = setInterval(() => {
-      countDownTimer--;
-
-      secTimer.textContent = countDownTimer;
-
-      if (countDownTimer <= 0) {
+    function startTimer() {
+      //clear running interval
+      if (timerIntervalId) {
         clearInterval(timerIntervalId);
-
-        loadQuestion();
-
-        startTimer();
       }
-    }, 1000);
-  }
 
-  //check answer
-  function checkAnswer() {
-    const selectedAnswer = document.querySelector(
-      'input[name = "option"]:checked'
-    );
-    if (selectedAnswer) {
-      userAnswer = parseInt(selectedAnswer.value);
-    } else {
-      userAnswer = null;
-      return null;
+      let countDownTimer = 10;
+      if (secTimer) {
+        secTimer.textContent = countDownTimer;
+      }
+
+      timerIntervalId = setInterval(() => {
+        countDownTimer--;
+
+        secTimer.textContent = countDownTimer;
+
+        if (countDownTimer <= 0) {
+          clearInterval(timerIntervalId);
+
+          loadQuestion();
+
+          startTimer();
+        }
+      }, 1000);
     }
 
-    const correctAnswer = selectedQuestion.correctAnswerIndex;
+    //check answer
+    function checkAnswer() {
+      const selectedAnswer = document.querySelector(
+        'input[name = "option"]:checked'
+      );
+      if (selectedAnswer) {
+        userAnswer = parseInt(selectedAnswer.value);
+      } else {
+        userAnswer = null;
+        return null;
+      }
 
-    if (userAnswer === correctAnswer) {
-      score++;
-      scoreTxt.textContent = score;
+      const correctAnswer = selectedQuestion.correctAnswerIndex;
 
-      percentTxt.textContent = `${((score / totalQuestions) * 100).toFixed()}%`;
+      if (userAnswer === correctAnswer) {
+        score++;
+        scoreTxt.textContent = score;
+
+        percentTxt.textContent = `${(
+          (score / totalQuestions) *
+          100
+        ).toFixed()}%`;
+      }
+      return userAnswer;
     }
-    return userAnswer;
+
+    nextBtn.addEventListener('click', function () {
+      const answerResult = checkAnswer();
+
+      console.log(answerResult);
+
+      clearInterval(timerIntervalId);
+      startTimer();
+
+      loadQuestion();
+    });
+
+    restartBtn.addEventListener('click', function () {
+      availableQuestion = [...generalKnowledgeQuestions];
+      score = 0;
+      history = [];
+      scoreTxt.textContent = '0';
+      percentTxt.textContent = '0.0%';
+      modalPopup.style.display = 'none';
+      questionDIv.style.display = 'block';
+      currentQuestion.textContent = '0';
+
+      loadQuestion();
+      startTimer();
+    });
+
+    function updateHighScore() {
+      if (score > highScoreValue) {
+        highScoreValue = score;
+        highScore.textContent = highScoreValue;
+        localStorage.setItem('quizHighScoreValue', highScoreValue);
+        return true;
+      }
+    }
+    const highScoreValue = score;
+    highScore.textContent = localStorage.getItem('highScoreValue');
+    localStorage.setItem('highScoreValue', highScoreValue);
+    if (score > highScoreValue) {
+      console.log(score, highScore);
+
+      localStorage.setItem('highScoreValue', highScoreValue);
+      const currentUserHighScoreValue = localStorage.getItem('highScoreValue');
+      highScore.textContent = currentUserHighScoreValue;
+      console.log(currentUserHighScoreValue);
+    }
+
+    return null; // Return null to indicate no question was loaded
   }
-
-  nextBtn.addEventListener('click', function () {
-    const answerResult = checkAnswer();
-
-    console.log(answerResult);
-
-    clearInterval(timerIntervalId);
-    startTimer();
-
-    loadQuestion();
-  });
-
-  restartBtn.addEventListener('click', function () {
-    availableQuestion = [...generalKnowledgeQuestions];
-    score = 0;
-    history = [];
-    scoreTxt.textContent = '0';
-    percentTxt.textContent = '0.0%';
-    modalPopup.style.display = 'none';
-    questionDIv.style.display = 'block';
-    currentQuestion.textContent = '0';
-
-    loadQuestion();
-    startTimer();
-  });
-
   /* localStorage.setItem('score', score);*/
 });
